@@ -18,7 +18,7 @@ class Main {
       rules = input.nextLine();
     }
     System.out.println("\nLet's Play!!\n");
-    ComputerGuess player1 = new ComputerGuess(p1);
+    Computer player1 = new Computer(p1);
     int compDice = 5;
     int playerDice = 5;
     boolean roundActive = true;
@@ -38,7 +38,7 @@ class Main {
 
       round ++;
       System.out.println("Start Round " + round + "!");
-      System.out.println("Computer Rolls: " + Arrays.toString(croll));//Test code
+      //System.out.println("Computer Rolls: " + Arrays.toString(croll));//Test code
       System.out.println("Player Rolls: " + Arrays.toString(p1roll));
       try { // Delay for 2 seconds
         Thread.sleep(2000);
@@ -75,8 +75,8 @@ class Main {
         }
         oldGuessnum = guessnum;
 
-        System.out.println("Min Guess Quantity is " + minGuessquantity);
-        System.out.println("Old Guess Number is " + oldGuessnum);
+        //System.out.println("Min Guess Quantity is " + minGuessquantity);//test code
+        //System.out.println("Old Guess Number is " + oldGuessnum);//test code
     
         //computer calling perudo
         boolean call = player1.callPerudo(guessnum, guessquantity, croll[0], croll[1], croll[2], croll[3], croll[4], playerDice, compDice);
@@ -85,22 +85,22 @@ class Main {
           if (count<guessquantity) {
               System.out.println("You lost! There were " + count + " " + guessnum + "s");
               playerDice--;
+              System.out.println("Computer Rolls: " + Arrays.toString(croll));//Test code
               System.out.println("Computer new dice total: " + compDice);
               System.out.println("Your new dice total: " + playerDice);
-              System.out.println("Total dice: " + (compDice+playerDice));
               roundActive = false;
             } else if (count>=guessquantity) {
               System.out.println("You won! There were " + count + " " + guessnum + "s");
               compDice--;
+              System.out.println("Computer Rolls: " + Arrays.toString(croll));//Test code
               System.out.println("Computer new dice total: " + compDice);
               System.out.println("Your new dice total: " + playerDice);
-              System.out.println("Total dice: " + (compDice+playerDice));
               roundActive = false;
             } else { System.out.println("If you see this something went wrong.");
               }
         } else {
           
-          System.out.println("The Computer thinks you're right\n");
+          //System.out.println("The Computer thinks you're right\n");
           //determines the computer's next guess and changes the guess quantity and min guess quantity to match
           int compRaise[] = player1.newGuess(guessnum, guessquantity, croll[0], croll[1], croll[2], croll[3], croll[4], playerDice, compDice);
           guessquantity = compRaise[0];
@@ -110,8 +110,8 @@ class Main {
             minGuessquantity = guessquantity;
           }
           System.out.println("The Computer says there will be " + guessquantity + " " + guessnum + "s");
-          System.out.println("Min Guess Quantity is " + minGuessquantity);
-          System.out.println("old guess num " + oldGuessnum);
+          //System.out.println("Min Guess Quantity is " + minGuessquantity);//test code
+          //System.out.println("old guess num " + oldGuessnum);//test code
         
           //player calling perudo
           System.out.println("Call Perudo or raise the total");
@@ -121,16 +121,16 @@ class Main {
             if (count>=guessquantity) {
               System.out.println("You lost! There were " + count + " " + guessnum + "s");
               playerDice--;
+              System.out.println("Computer Rolls: " + Arrays.toString(croll));//Test code
               System.out.println("Computer new dice total: " + compDice);
               System.out.println("Your new dice total: " + playerDice);
-              System.out.println("Total dice: " + (compDice+playerDice));
               roundActive = false;
             } else if (count<guessquantity) {
               System.out.println("You won! There were " + count + " " + guessnum + "s");
               compDice--;
+              System.out.println("Computer Rolls: " + Arrays.toString(croll));//Test code
               System.out.println("Computer new dice total: " + compDice);
               System.out.println("Your new dice total: " + playerDice);
-              System.out.println("Total dice: " + (compDice+playerDice));
               roundActive = false;
             } else { System.out.println("If you see this something went wrong.");
               }

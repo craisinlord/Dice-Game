@@ -1,4 +1,4 @@
-public class ComputerGuess {
+public class Computer {
   //attributes
   private String player1;
   private int num;
@@ -20,7 +20,7 @@ public class ComputerGuess {
   private int dieFaces;
   
   //constructor
-  public ComputerGuess(String name1) {
+  public Computer(String name1) {
     player1 = name1;
   }
   
@@ -71,33 +71,43 @@ public class ComputerGuess {
     plnum5 = pl5;
     if (compnum1==num||compnum1==1){
       count++;
+      //System.out.println("comp dice one counted");//test code
     } 
     if (compnum2==num||compnum2==1){
       count++;
+      //System.out.println("comp dice 2 counted");//test code
     }
     if (compnum3==num||compnum3==1){
       count++;
+      //System.out.println("comp dice 3 counted");//test code
     }
     if (compnum4==num||compnum4==1){
       count++;
+      //System.out.println("comp dice 4 counted");//test code
     }
     if (compnum5==num||compnum5==1){
       count++;
+      //System.out.println("comp dice 5 counted");//test code
     }
     if (plnum1==num||plnum1==1){
       count++;
+      //System.out.println("Player dice 1 counted");//test code
     }
     if (plnum2==num||plnum2==1){
       count++;
+      //System.out.println("Player dice 2 counted");//test code
     }
     if (plnum3==num||plnum3==1){
       count++;
+      //System.out.println("Player dice 3 counted");//test code
     }
     if (plnum4==num||plnum4==1){
       count++;
+      //System.out.println("Player dice 4 counted");//test code
     }
     if (plnum5==num||plnum5==1){
       count++;
+      //System.out.println("Player dice 5 counted");//test code
     }
     return count;
   }
@@ -107,7 +117,7 @@ public class ComputerGuess {
     compDiceNum = cDN;
     int compGuess = 1;
     double ran = Math.random();
-    System.out.println(ran);
+    //System.out.println(ran);//test code
     num = n;
     guess = g;
     compnum1 = comp1;
@@ -125,11 +135,14 @@ public class ComputerGuess {
       compGuess++;
     } if (compnum5==num||compnum5==1){
       compGuess++;
-    } if (compGuess>=(guess/2)) {
+    } if (guess<=2&&(cDN+pDN)>=7){
+      return false;
+    } if (compGuess-1>(guess/2)) {
       compGuess ++; 
-    } if (ran>0.8){
+    } if (ran>0.5){
       compGuess ++;
-    } if (guess>compGuess) {
+    } //System.out.println("Comp guess is " + compGuess); //test code
+    if (guess>compGuess) {
       return true;
     } else {
       return false;
@@ -142,7 +155,7 @@ public class ComputerGuess {
     int[] guessArray = new int[2];
     int raise = 0;
     double ran1 = Math.random();
-    System.out.println(ran1);//Test code
+    //System.out.println(ran1);//Test code
     num = n;
     guessArray[1] = num;
     guess = g;
@@ -151,50 +164,64 @@ public class ComputerGuess {
     compnum3 = comp3;
     compnum4 = comp4;
     compnum5 = comp5;
-    int compNum = 0;
+    int compNum;
+    int oldNum = num;
+    int check = 0;;
+    while (num<=dieFaces){
+      check ++;
+      compNum = 0;
+      //System.out.println("Attempted number: " + num); //test code
       if (compnum1==num||compnum1==1){
-      compNum++;
-    } if (compnum2==num||compnum2==1){
-      compNum++;
-    } if (compnum3==num||compnum3==1){
-      compNum++;
-    } if (compnum4==num||compnum4==1){
-      compNum++;
-    } if (compnum5==num||compnum5==1){
-      compNum++;
-    } 
-    if (compNum>guess) {
-      raise = (compNum-guess);
-      if ((compNum-guess)<=3&&compNum>1&&ran1>0.5) raise ++;
-    } 
-    else if (compNum==guess) {//fixed issue with computer not raising at all if it has the same number as the amount guessed
-      raise ++;
-    }
-    else if (guess>compNum) {
-      if (num==dieFaces) {
-        raise++;
-      } else {
-        compNum = 0;
-        num ++;
-        System.out.println("Attempted number: " + num); //test code
-        if (compnum1==num||compnum1==1){
-          compNum++;
-        } if (compnum2==num||compnum2==1){
-          compNum++;
-        } if (compnum3==num||compnum3==1){
-          compNum++;
-        } if (compnum4==num||compnum4==1){
-          compNum++;
-        } if (compnum5==num||compnum5==1){
-          compNum++;
+        compNum++;
+      } if (compnum2==num||compnum2==1){
+        compNum++;
+      } if (compnum3==num||compnum3==1){
+        compNum++;
+      } if (compnum4==num||compnum4==1){
+        compNum++;
+      } if (compnum5==num||compnum5==1){
+        compNum++;
+      } 
+      if (compNum>guess) {
+        raise = (compNum-guess);
+        if (compNum>=2&&ran1>0.6) raise ++;
+        break;
+      } 
+      else if (compNum==guess||(compNum+(playerDiceNum/3)>guess)) {
+        raise = 1;
+        if (num>oldNum){
+          raise = 0;
         }
-        if (compNum>=3&&ran1>0.5) {
-          raise ++;
+        break;
+      }
+      else if (compNum<guess) {
+        if (num==dieFaces) {
+          if (oldNum>2){
+            num=2;
+          }
+          else {
+            num = oldNum;
+            raise = 1;
+            if (num>oldNum){
+              raise = 0;
+            }
+            break;
+          }
+        } 
+        else {
+          num++;
         }
-        if (compNum<=(compDiceNum/2)) {////change later so it adjusts
-          num--;
-          raise=1;
-        }
+      }
+      if (guess==(cDN+pDN)&&num!=dieFaces){
+        num++;
+        raise = 0;
+        break;
+      }
+      if (check>=dieFaces-1) {
+        //System.out.println("THIS RAN"); //test code
+        num = oldNum;
+        raise = 1;
+        break;
       }
     } 
     guessArray[0] = raise + guess;
