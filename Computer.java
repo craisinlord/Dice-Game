@@ -3,6 +3,7 @@ public class Computer {
   private String player1;
   private int num;
   private int guess;
+  private int diffNum;
   private int diceNum;
   private int count;
   private int compnum1;
@@ -112,12 +113,13 @@ public class Computer {
     return count;
   }
   
-  public boolean callPerudo(int n, int g, int comp1, int comp2, int comp3, int comp4, int comp5, int pDN, int cDN) {
+  public boolean callPerudo(int diff, int n, int g, int comp1, int comp2, int comp3, int comp4, int comp5, int pDN, int cDN) {
     playerDiceNum = pDN;
     compDiceNum = cDN;
     int compGuess = 1;
     double ran = Math.random();
     //System.out.println(ran);//test code
+    diffNum = diff;
     num = n;
     guess = g;
     compnum1 = comp1;
@@ -125,6 +127,12 @@ public class Computer {
     compnum3 = comp3;
     compnum4 = comp4;
     compnum5 = comp5;
+    if (diffNum==1){
+        if (ran>0.5) {
+          return true;
+        }
+        else return false;
+    }
     if (compnum1==num||compnum1==1){
       compGuess++;
     } if (compnum2==num||compnum2==1){
@@ -149,13 +157,14 @@ public class Computer {
     }
   }
   
-  public int[] newGuess(int n, int g, int comp1, int comp2, int comp3, int comp4, int comp5, int pDN, int cDN){
+  public int[] newGuess(int diff, int n, int g, int comp1, int comp2, int comp3, int comp4, int comp5, int pDN, int cDN){
     compDiceNum = cDN;
     playerDiceNum = pDN;
     int[] guessArray = new int[2];
     int raise = 0;
     double ran1 = Math.random();
     //System.out.println(ran1);//Test code
+    diffNum = diff;
     num = n;
     guessArray[1] = num;
     guess = g;
@@ -166,10 +175,15 @@ public class Computer {
     compnum5 = comp5;
     int compNum;
     int oldNum = num;
-    int check = 0;;
+    int check = 0;
     while (num<=dieFaces){
       check ++;
       compNum = 0;
+      if (diffNum==1){
+        num = oldNum;
+        raise = 1;
+        break;
+      }
       //System.out.println("Attempted number: " + num); //test code
       if (compnum1==num||compnum1==1){
         compNum++;
@@ -195,6 +209,168 @@ public class Computer {
         break;
       }
       else if (compNum<guess) {
+        if (num==dieFaces) {
+          if (oldNum>2){
+            num=2;
+          }
+          else {
+            num = oldNum;
+            raise = 1;
+            if (num>oldNum){
+              raise = 0;
+            }
+            break;
+          }
+        } 
+        else {
+          num++;
+        }
+      }
+      if (guess==(cDN+pDN)&&num!=dieFaces){
+        num++;
+        raise = 0;
+        break;
+      }
+      if (check>=dieFaces-1) {
+        //System.out.println("THIS RAN"); //test code
+        num = oldNum;
+        raise = 1;
+        break;
+      }
+    } 
+    guessArray[0] = raise + guess;
+    guessArray[1] = num;
+    return guessArray;
+  }
+  public boolean callPerudoImp(int diff, int n, int g, int comp1, int comp2, int comp3, int comp4, int comp5, int pl1, int pl2, int pl3, int pl4, int pl5, int pDN, int cDN) {
+    playerDiceNum = pDN;
+    compDiceNum = cDN;
+    int compGuess = 0;
+    double ran = Math.random();
+    //System.out.println(ran);//test code
+    diffNum = diff;
+    num = n;
+    guess = g;
+    compnum1 = comp1;
+    compnum2 = comp2;
+    compnum3 = comp3;
+    compnum4 = comp4;
+    compnum5 = comp5;
+    plnum1 = pl1;
+    plnum2 = pl2;
+    plnum3 = pl3;
+    plnum4 = pl4;
+    plnum5 = pl5;
+    if (compnum1==num||compnum1==1){
+      compGuess++;
+      //System.out.println("comp 1 counted");
+    } if (compnum2==num||compnum2==1){
+      compGuess++;
+      //System.out.println("comp 2 counted");
+    } if (compnum3==num||compnum3==1){
+      compGuess++;
+      //System.out.println("comp 3 counted");
+    } if (compnum4==num||compnum4==1){
+      compGuess++;
+      //System.out.println("comp 4 counted");
+    } if (compnum5==num||compnum5==1){
+      compGuess++;
+      //System.out.println("comp 5 counted");
+    } if (plnum1==num||plnum1==1){
+      compGuess++;
+      //System.out.println("pl 1 counted");
+    } if (plnum2==num||plnum2==1){
+      compGuess++;
+      //System.out.println("pl 2 counted");
+    } if (plnum3==num||plnum3==1){
+      compGuess++;
+      //System.out.println("pl 3 counted");
+    } if (plnum4==num||plnum4==1){
+      compGuess++;
+      //System.out.println("pl 4 counted");
+    } if (plnum5==num||plnum5==1){
+      compGuess++;
+      //System.out.println("pl 5 counted");
+    }  //System.out.println("Comp guess is " + compGuess); //test code
+    if (guess>compGuess) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  
+  public int[] newGuessImp(int diff, int n, int g, int comp1, int comp2, int comp3, int comp4, int comp5, int pl1, int pl2, int pl3, int pl4, int pl5, int pDN, int cDN){
+    compDiceNum = cDN;
+    playerDiceNum = pDN;
+    int[] guessArray = new int[2];
+    int raise = 0;
+    //System.out.println(ran1);//Test code
+    diffNum = diff;
+    num = n;
+    guessArray[1] = num;
+    guess = g;
+    compnum1 = comp1;
+    compnum2 = comp2;
+    compnum3 = comp3;
+    compnum4 = comp4;
+    compnum5 = comp5;
+    plnum1 = pl1;
+    plnum2 = pl2;
+    plnum3 = pl3;
+    plnum4 = pl4;
+    plnum5 = pl5;
+    int compNum;
+    int oldNum = num;
+    int check = 0;
+    while (num<=dieFaces){
+      check ++;
+      compNum = 0;
+      //System.out.println("Attempted number: " + num); //test code
+      if (compnum1==num||compnum1==1){
+        compNum++;
+        //System.out.println("comp dice one counted");//test code
+      } 
+      if (compnum2==num||compnum2==1){
+        compNum++;
+        //System.out.println("comp dice 2 counted");//test code
+      }
+      if (compnum3==num||compnum3==1){
+        compNum++;
+        //System.out.println("comp dice 3 counted");//test code
+      }
+      if (compnum4==num||compnum4==1){
+        compNum++;
+        //System.out.println("comp dice 4 counted");//test code
+      }
+      if (compnum5==num||compnum5==1){
+        compNum++;
+        //System.out.println("comp dice 5 counted");//test code
+      }
+      if (plnum1==num||plnum1==1){
+        compNum++;
+        //System.out.println("Player dice 1 counted");//test code
+      }
+      if (plnum2==num||plnum2==1){
+        compNum++;
+        //System.out.println("Player dice 2 counted");//test code
+      }
+      if (plnum3==num||plnum3==1){
+        compNum++;
+        //System.out.println("Player dice 3 counted");//test code
+      }
+      if (plnum4==num||plnum4==1){
+        compNum++;
+        //System.out.println("Player dice 4 counted");//test code
+      }
+      if (plnum5==num||plnum5==1){
+        compNum++;
+        //System.out.println("Player dice 5 counted");//test code
+      } 
+      if (compNum>guess) {
+        raise = (compNum-guess);
+        break;
+      } 
+      else if (compNum<=guess) {
         if (num==dieFaces) {
           if (oldNum>2){
             num=2;
